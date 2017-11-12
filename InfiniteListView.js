@@ -33,9 +33,9 @@ export default class InfiniteListView extends Component {
     super(props);
     if (props.dataArray && props.renderRow) {
       let rowHasChanged = props.rowHasChanged || ((r1, r2) => r1 !== r2);
-      const ds = new ListView.DataSource({ rowHasChanged: rowHasChanged });
+      this.ds = new ListView.DataSource({ rowHasChanged: rowHasChanged });
       this.state = {
-        dataSource: ds.cloneWithRows(props.dataArray)
+        dataSource: props.dataArray
       };
     } else {
       this.state = {};
@@ -49,7 +49,7 @@ export default class InfiniteListView extends Component {
     if (this.state.dataSource) {
       let list = [...nextProps.dataArray, { type: LOAD_MORE_TYPE }];
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(list)
+        dataSource: list
       });
     }
   }
@@ -114,10 +114,10 @@ export default class InfiniteListView extends Component {
       >
         {this.props.isLoadingMore
           ? <ActivityIndicator
-              color={this.props.spinnerColor}
-              animating={true}
-              size="small"
-            />
+            color={this.props.spinnerColor}
+            animating={true}
+            size="small"
+          />
           : <View />}
       </View>
     );
@@ -147,7 +147,7 @@ export default class InfiniteListView extends Component {
       <ListView
         {...this.props}
         enableEmptySections
-        dataSource={this.state.dataSource}
+        dataSource={this.ds.cloneWithRows(this.state.dataSource)}
         renderRow={this.renderRow}
         refreshControl={this.renderRefreshControl()}
         onScroll={this.onScroll}
