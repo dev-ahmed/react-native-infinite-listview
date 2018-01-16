@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import {
   Dimensions,
   ListView,
@@ -6,6 +6,8 @@ import {
   RefreshControl,
   ActivityIndicator
 } from "react-native";
+
+import PropTypes from 'prop-types';
 
 const LOAD_MORE_TYPE = "LOAD_MORE_TYPE";
 
